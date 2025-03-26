@@ -1,5 +1,6 @@
 <script setup>
-import { ref, reactive, computed } from "vue";
+import { ref, reactive, computed, watch } from "vue";
+import Kotak from "@/components/Kotak.vue";
 
 
         //  ini namanya state
@@ -79,6 +80,51 @@ import { ref, reactive, computed } from "vue";
 
 
         const fontSize = 50
+
+
+        // const pesan = ref('')
+
+        // watch(pesan, (newValue, oldValue) => {
+        //     console.log(`old value = ${oldValue}`)
+        //     console.log(`new value = ${newValue}`)
+        // })
+
+        // const username = ref('')
+        // let isShow = ref(false)
+        // watch(username, (newValue, oldValue) => {
+        //     if (newValue.length > 0) {
+        //         isShow = true
+        //     }
+        //     if (newValue.length == 0 || newValue.length >= 7) {
+        //         isShow = false
+        //     }
+        // })
+
+
+        const oldPassword = ref('')
+        const newPassword = ref('')
+        const retypePassword = ref('')
+        let isShow = ref(false)
+        watch(newPassword, (newValue, oldValue) => {
+            if (newValue.length > 0 && newValue != retypePassword.value) {
+                isShow = true
+            }
+            if (newValue.length > 0 && newValue == retypePassword.value) {
+                isShow = false
+            }
+        })
+        watch(retypePassword, (newValue, oldValue) => {
+            if (newValue == newPassword.value) {
+                isShow = false
+            }
+        })
+
+
+
+
+
+        const shoutout = (title, description) => alert('test emit event ' + title + ' ' + description)
+ 
 
 </script>
 
@@ -162,6 +208,41 @@ import { ref, reactive, computed } from "vue";
 <hr>
 
 <input type="text" v-model="number" />
+
+<hr>
+
+<!-- <input type="text" v-model="pesan" name="" id=""> -->
+
+<!-- <label for="username">username: </label> <br>
+<input type="text" v-model="username" name="" id="username"> <br>
+<span v-if="isShow" style="color: red; font-size: 12px;">*minimal 7 karakter*</span> -->
+
+<hr>
+
+<label for="">old password</label><br>
+<input type="text" name="" id="" v-model="oldPassword"><br>
+<label for="">new password</label><br>
+<input type="text" name="" id="" v-model="newPassword"><br>
+<label for="">retype password</label><br>
+<input type="text" name="" id="" v-model="retypePassword"><br>
+<span v-if="isShow" style="color: red; font-size: 12px;">*retype password not match with new password</span>
+
+
+<hr>
+
+<Kotak title="orange" description="ini orange" @alertInfo="shoutout">
+    <!-- ini test slot -->
+     <template v-slot:slot1>ini test slot 1</template>
+     <template v-slot:slot3>ini test slot 3</template>
+</Kotak>
+
+
+
+
+<Kotak title="apple" description="ini apple" @alertInfo="shoutout"></Kotak>
+<Kotak title="papaya" description="ini papaya" @alertInfo="shoutout"></Kotak>
+<Kotak title="melon" description="ini melon" @alertInfo="shoutout"></Kotak>
+<Kotak title="watermelon" description="ini watermelon" @alertInfo="shoutout"></Kotak>
 
 </template>
 
